@@ -16,9 +16,6 @@ We aim to enable an experimentation testnet that will leverage the best aspects 
 
 We believe that by doing this:
 
-Projects will gain early-alignment to the Diem architecture and technology stack.
-It will also speed up their go-to-market strategy if they are chosen to be onboarded into the Diem ecosystem and granted access to Diem's 2 billion+ userbase.
-
 {% hint style="success" %}
 * Projects will gain early-alignment to the Diem architecture and technology stack.
 * It will also speed up their go-to-market strategy if they are chosen to be onboarded into the Diem ecosystem and granted access to Diem's 2 billion+ userbase.
