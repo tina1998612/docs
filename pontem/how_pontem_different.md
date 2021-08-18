@@ -24,4 +24,4 @@ We believe Pontem has the unique potential of attracting hundreds of millions of
 
 * Libra is developing and using Move, so Polkadot will have at least initial compatibility with Libra at least by allowing using the same modules in both networks.
 
-* Flow - Crypto Kitties creators blockchain also going to utilize Move VM and Move language, also by creating new language on top of it - Cadence, which can be adopted to Polkadot later.
+* Flow - Crypto Kitties creators blockchain also going to utilize Move VM and Move language, also by creating new language on top of it - Cadence, which can be adopted to Polkadot later. ([reference](https://www.onflow.org/post/libra-and-flow-combining-resources-for-open-source))
