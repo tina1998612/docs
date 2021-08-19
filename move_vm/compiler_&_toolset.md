@@ -11,16 +11,24 @@ We've developed a toolset for the Move VM and language which allows for:
 
 All tools stored in our [Move-Tools](https://github.com/pontem-network/move-tools) Github repository.
 
-You can download all tools from [releases page](https://github.com/pontem-network/move-tools/releases).
+You can download all tools from the [releases page](https://github.com/pontem-network/move-tools/releases).
 
-After downloading rename tool(s) removing version and os and moving binary to `/usr/local/bin/`.
+After downloading, rename tool(s) and move the binary to `/usr/local/bin`.
 
-For example, for dove:
+For example, to install dove on Linux, execute the below command after downloading `dove-1.2.8-linux-x86_64` from the [releases page](https://github.com/pontem-network/move-tools/releases)(remember to update the below command to the latest downloaded dove version):
 
 ```sh
-mv ./dove-1.1.0-linux-x86_64 ./dove
+mv ./dove-1.2.8-linux-x86_64 ./dove
 chmod +x ./dove
-mv ./dove /usr/local/bin/dove
+mv ./dove /usr/local/bin
+```
+
+For Mac:
+
+```sh
+mv ./dove-1.2.8-darwin-x86_64 ./dove
+chmod +x ./dove
+mv ./dove /usr/local/bin
 ```
 
 For Windows:
@@ -29,26 +37,29 @@ For Windows:
 2. Create there **"dove"** directory.
 3. Rename the downloaded file to **"dove"** and put it into **"dove"** directory.
 
-Now dove is available from **"cmd"**.
+Now dove is available from the command line.
 
-To build tools from sources see [README](https://github.com/pontem-network/move-tools#move-tools).
+To build tools from sources, see [README](https://github.com/pontem-network/move-tools#move-tools).
 
 ## Dove
 
-Dove is Move compiler and package manager. Using Dove you can create your own Move smart contract projects.
+[Dove](https://github.com/pontem-network/move-tools/tree/master/dove) is Move's compiler and package manager. With Dove, you can create your own Move smart contract projects.
 
-Let's create first project:
+Let's create first project (**replace address with your address**):
 
 ```sh
-dove new first_project --dialect pont  --address <address>
+dove new first_dove_project --dialect pont  --address <your_address>
 ```
 
-**Replace address with your address.**
+If you don't have an address yet, the easiest way is to create a new account with the [Polkadot JS Extension](https://polkadot.js.org/extension/).
 
-Navigate to `first_project` folder and see what's automatically generated inside:
+The `first_dove_project` folder will be generated under the current directory.
+
+
+Navigate to `first_dove_project` folder and see what's automatically generated inside:
 
 ```sh
-cd ./first_project
+cd ./first_dove_project
 ls -la
 ```
 
@@ -61,26 +72,27 @@ Let's see what contains `Dove.toml`:
 
 ```toml
 [package]
-name = "first_project1"
-account_address = "<your address>"
+name = "first_dove_project"
+account_address = "<your_address>"
 dialect = "pont"
+
 dependencies = [
-    { git = "https://github.com/pontem-network/move-stdlib" }
+    { git = "https://github.com/pontem-network/move-stdlib", tag = "v0.1.2" }
 ]
 ```
 
 * `name` - name of project.
 * `account_address` - address of your account, used during compilation.
-* `dialect` - can be `Diem`, or `pont` (SS58 Polkadot addresses).
+* `dialect` - supported address format, it can be `Diem`, or `pont`. If `Diem` is chosen, you can't use [SS58](https://wiki.polkadot.network/docs/learn-accounts#address-format) (the Polkadot address format used in Substrate-based chains). If `pont` is chosen, you can use either SS58 or the Diem address format.
 * `dependencies` - list of dependencies, git (tag or branch also supported) or local folder (use `path`).
 
 Let's create empty script and build it:
 
 ```sh
-touch ./scripts/test.move
+vim ./scripts/test.move
 ```
 
-Put there Move code:
+Put some Move code into it:
 
 ```rustc
 script {
@@ -93,7 +105,7 @@ script {
 Build your empty project:
 
 ```sh
-dove build # Build script without providing arguments, so can't use in pallet.
+dove build # Build script without providing arguments, so can't be used in pallet.
 dove tx 'test()' # Build script with arguments.
 ```
 
@@ -103,16 +115,16 @@ There is a difference between `build` and `tx` commands, if you want just to `bu
 dove tx --help
 ```
 
-See your builded artifacts in `./artifacts` folder:
+See your artifacts built in `./artifacts` folder:
 
 ```sh
-ls -la ./artifacts/scripts # Just built script
-ls -la ./artifacts/transactions # Script with arguments for pallet.
+ls ./artifacts/scripts # Script built without providing arguments.
+ls ./artifacts/transactions # Script built with arguments for pallet.
 ```
 
 ### Script Transaction
 
-Command `tx` allows you to create transactions for an Polkadot based chain with Move Pallet.
+Command `tx` allows you to create transactions for a Polkadot based chain with Move Pallet.
 
 `tx` takes script identifier, type parameters, and arguments and creates a transaction file as an artifact of work:
 
@@ -130,7 +142,9 @@ This command will fail if:
 * There is more than one script with the name 'store_64'.
 * The passed parameters or type parameters do not match the script parameters.
 * There are syntax errors in the script.
-* You can use type parameters like in the move language.
+
+
+You can use type parameters like in the Move language.
 
 Example:
 
@@ -138,7 +152,7 @@ Example:
 dove tx 'create_account<0x01::PONT::T>()'
 ```
 
-You allow to use addresses:
+You are also allowed to use addresses:
 
 ```sh
 dove tx 'send_payment(1exaAg2VJRQbyUBAeXcktChCAqjVP9TUxF3zo23R2T6EGdE)'
